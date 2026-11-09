@@ -19,31 +19,62 @@ interface Props {
 const { title, description, lang, pubDate, category, metrics, conclusion } = Astro.props;
 
 const categoryLabels: Record<string, Record<string, string>> = {
-  es: { herramientas: 'Herramientas', modelos: 'Modelos', infraestructura: 'Infraestructura', negocio: 'Negocio' },
-  en: { herramientas: 'Tools', modelos: 'Models', infraestructura: 'Infrastructure', negocio: 'Business' },
-  ua: { herramientas: 'Інструменти', modelos: 'Моделі', infraestructura: 'Інфраструктура', negocio: 'Бізнес' },
-  ru: { herramientas: 'Инструменты', modelos: 'Модели', infraestructura: 'Инфраструктура', negocio: 'Бизнес' },
+  es: {
+    herramientas: 'Herramientas',
+    modelos: 'Modelos',
+    infraestructura: 'Infraestructura',
+    negocio: 'Negocio',
+  },
+  en: {
+    herramientas: 'Tools',
+    modelos: 'Models',
+    infraestructura: 'Infrastructure',
+    negocio: 'Business',
+  },
+  ua: {
+    herramientas: 'Інструменти',
+    modelos: 'Моделі',
+    infraestructura: 'Інфраструктура',
+    negocio: 'Бізнес',
+  },
+  ru: {
+    herramientas: 'Инструменты',
+    modelos: 'Модели',
+    infraestructura: 'Инфраструктура',
+    negocio: 'Бизнес',
+  },
 };
 
 const catLabel = categoryLabels[lang]?.[category] || category;
+const dateLocale =
+  lang === 'es' ? 'es-ES' : lang === 'en' ? 'en-US' : lang === 'ua' ? 'uk-UA' : 'ru-RU';
+
+const conclusionTitle: Record<string, string> = {
+  es: 'Mi postura',
+  en: 'My take',
+  ua: 'Моя позиція',
+  ru: 'Моя позиция',
+};
 ---
 
 <BaseLayout title={title} description={description} lang={lang}>
-  <article class="max-w-3xl mx-auto px-4 py-10 sm:py-16">
-    <header class="mb-10">
+  <article class="max-w-3xl mx-auto px-4 py-10 sm:py-14">
+    <header class="mb-8 sm:mb-10">
       <div class="flex flex-wrap items-center gap-3 mb-4">
         <span class="tag tag-active">{catLabel}</span>
-        <time datetime={pubDate.toISOString()} class="text-sm text-ink-muted">
-          {pubDate.toLocaleDateString(lang === 'es' ? 'es-ES' : lang === 'en' ? 'en-US' : lang === 'ua' ? 'uk-UA' : 'ru-RU', {
+        <time datetime={pubDate.toISOString()} class="text-sm text-ink-muted tabular-nums">
+          {pubDate.toLocaleDateString(dateLocale, {
             year: 'numeric',
             month: 'long',
             day: 'numeric',
           })}
         </time>
       </div>
+
       <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-ink leading-tight">
         {title}
       </h1>
+
       <p class="mt-4 text-lg text-ink-muted leading-relaxed">
         {description}
       </p>
@@ -51,15 +82,17 @@ const catLabel = categoryLabels[lang]?.[category] || category;
 
     {metrics && <MetricsBlock metrics={metrics} lang={lang} />}
 
-    <div class="prose prose-invert prose-lg max-w-none prose-headings:text-ink prose-p:text-ink-muted prose-a:text-accent prose-strong:text-ink">
+    <div class="prose-custom">
       <slot />
     </div>
 
-    <section class="mt-14 p-6 card border-accent/20">
-      <h2 class="text-xl font-semibold text-ink mb-3">
-        {lang === 'es' ? 'Mi postura' : lang === 'en' ? 'My take' : lang === 'ua' ? 'Моя позиція' : 'Моя позиция'}
+    <section class="mt-12 sm:mt-14 p-5 sm:p-6 card border-accent/20">
+      <h2 class="text-lg sm:text-xl font-semibold text-ink mb-3">
+        {conclusionTitle[lang] || conclusionTitle.es}
       </h2>
-      <p class="text-ink-muted leading-relaxed whitespace-pre-line">{conclusion}</p>
+      <p class="text-ink-muted leading-relaxed whitespace-pre-line">
+        {conclusion}
+      </p>
     </section>
   </article>
 </BaseLayout>

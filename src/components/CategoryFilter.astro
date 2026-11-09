@@ -1,0 +1,66 @@
+---
+interface Props {
+  lang: string;
+  active?: string | null;
+}
+
+const { lang, active = null } = Astro.props;
+
+const categories = [
+  { id: null, labels: { es: 'Todos', en: 'All', ua: 'Усі', ru: 'Все' } },
+  { id: 'herramientas', labels: { es: 'Herramientas', en: 'Tools', ua: 'Інструменти', ru: 'Инструменты' } },
+  { id: 'modelos', labels: { es: 'Modelos', en: 'Models', ua: 'Моделі', ru: 'Модели' } },
+  { id: 'infraestructura', labels: { es: 'Infraestructura', en: 'Infrastructure', ua: 'Інфраструктура', ru: 'Инфраструктура' } },
+  { id: 'negocio', labels: { es: 'Negocio', en: 'Business', ua: 'Бізнес', ru: 'Бизнес' } },
+] as const;
+---
+
+<div class="flex flex-wrap gap-2 mb-8">
+  {categories.map((cat) => {
+    const isActive = active === cat.id || (active === null && cat.id === null);
+    const label = cat.labels[lang as keyof typeof cat.labels] || cat.labels.es;
+
+    return (
+      <button
+        type="button"
+        data-category={cat.id ?? 'all'}
+        class:list={[
+          'tag cursor-pointer transition-colors min-h-[36px]',
+          isActive ? 'tag-active' : 'hover:bg-slate-700/60 hover:text-ink',
+        ]}
+      >
+        {label}
+      </button>
+    );
+  })}
+</div>
+
+<script>
+  // Simple client-side filter (no framework needed)
+  const buttons = document.querySelectorAll('[data-category]');
+  const cards = document.querySelectorAll('[data-post-category]');
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const category = btn.getAttribute('data-category');
+
+      // Update active state
+      buttons.forEach((b) => {
+        b.classList.remove('tag-active');
+        b.classList.add('hover:bg-slate-700/60', 'hover:text-ink');
+      });
+      btn.classList.add('tag-active');
+      btn.classList.remove('hover:bg-slate-700/60', 'hover:text-ink');
+
+      // Filter cards
+      cards.forEach((card) => {
+        const cardCat = card.getAttribute('data-post-category');
+        if (category === 'all' || cardCat === category) {
+          (card as HTMLElement).style.display = '';
+        } else {
+          (card as HTMLElement).style.display = 'none';
+        }
+      });
+    });
+  });
+</script>

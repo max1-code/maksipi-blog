@@ -13,12 +13,23 @@ const copy: Record<string, string> = {
 };
 ---
 
-<footer class="border-t border-slate-800 mt-auto">
-  <div class="max-w-5xl mx-auto px-4 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-ink-muted">
-    <p>© {new Date().getFullYear()} Max (Maksipi) — {copy[lang] || copy.es}</p>
-    <div class="flex items-center gap-4">
-      <a href="https://x.com/Maksipi" class="hover:text-accent transition-colors" target="_blank" rel="noopener">X</a>
-      <a href="/rss.xml" class="hover:text-accent transition-colors">RSS</a>
+<footer class="border-t border-slate-800/60 mt-auto">
+  <div class="max-w-5xl mx-auto px-4 py-8 sm:py-10 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-ink-muted">
+    <p class="text-center sm:text-left">
+      © {new Date().getFullYear()} Max (Maksipi) — {copy[lang] || copy.es}
+    </p>
+    <div class="flex items-center gap-5">
+      <a
+        href="https://x.com/Maksipi"
+        class="hover:text-accent transition-colors"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        X
+      </a>
+      <a href="/rss.xml" class="hover:text-accent transition-colors">
+        RSS
+      </a>
     </div>
   </div>
 </footer>

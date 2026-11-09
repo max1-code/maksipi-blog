@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Hero from '../../components/Hero.astro';
 import PostCard from '../../components/PostCard.astro';
+import CategoryFilter from '../../components/CategoryFilter.astro';
 import { getCollection } from 'astro:content';
 
 export function getStaticPaths() {
@@ -36,9 +37,11 @@ const titles: Record<string, string> = {
 <BaseLayout title={titles[lang] || titles.es} lang={lang}>
   <Hero lang={lang} />
 
-  <div class="max-w-5xl mx-auto px-4 pb-16">
+  <div class="max-w-5xl mx-auto px-4 pb-16 sm:pb-20">
+    <CategoryFilter lang={lang} />
+
     {featured && (
-      <section class="mb-12">
+      <section class="mb-6 sm:mb-8" data-post-category={featured.data.category}>
         <PostCard
           title={featured.data.title}
           description={featured.data.description}
@@ -53,14 +56,16 @@ const titles: Record<string, string> = {
 
     <section class="grid gap-4 sm:grid-cols-2">
       {rest.map((post) => (
-        <PostCard
-          title={post.data.title}
-          description={post.data.description}
-          pubDate={post.data.pubDate}
-          category={post.data.category}
-          href={`/${lang}/post/${getCleanSlug(post)}`}
-          lang={lang}
-        />
+        <div data-post-category={post.data.category}>
+          <PostCard
+            title={post.data.title}
+            description={post.data.description}
+            pubDate={post.data.pubDate}
+            category={post.data.category}
+            href={`/${lang}/post/${getCleanSlug(post)}`}
+            lang={lang}
+          />
+        </div>
       ))}
     </section>
 

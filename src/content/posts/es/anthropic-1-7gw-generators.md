@@ -6,9 +6,9 @@ category: "infraestructura"
 lang: "es"
 featured: true
 metrics:
-  cost: "$3.400M en generadores"
-  bottleneck: "Energía y permisos, no solo GPUs"
-  realUtility: "Alta si garantiza uptime; arriesgada si el gas se complica"
+  cost: "$3.400M"
+  bottleneck: "Energía y permisos"
+  realUtility: "Uptime garantizado"
 conclusion: "Quien controle la energía controlará la escala. Los modelos frontier ya no se limitan por algoritmos: se limitan por megavatios, permisos y tiempo de construcción. Anthropic está comprando tiempo. El resto del sector debería estar mirando el mismo problema con la misma urgencia."
 ---
 

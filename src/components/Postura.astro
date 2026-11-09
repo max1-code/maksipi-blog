@@ -1,0 +1,33 @@
+---
+interface Props {
+  text: string;
+  lang?: string;
+}
+
+const { text, lang = 'es' } = Astro.props;
+
+const headers: Record<string, string> = {
+  es: 'MAX · VEREDICTO SIN FILTRO',
+  en: 'MAX · UNFILTERED VERDICT',
+  ua: 'MAX · ВЕРДИКТ БЕЗ ФІЛЬТРІВ',
+  ru: 'MAX · ВЕРДИКТ БЕЗ ФИЛЬТРОВ',
+};
+
+const header = headers[lang] || headers.es;
+---
+
+<section class="mt-12 sm:mt-16 rounded-xl border border-emerald-500/30 bg-[#0E1626] p-5 sm:p-7">
+  <div class="flex items-center gap-2.5 mb-4">
+    <span class="relative flex h-2 w-2">
+      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-60"></span>
+      <span class="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
+    </span>
+    <p class="font-mono text-[11px] sm:text-xs font-semibold tracking-widest text-accent/90 uppercase">
+      {header}
+    </p>
+  </div>
+
+  <p class="text-base sm:text-lg text-ink leading-relaxed sm:leading-relaxed font-medium">
+    {text}
+  </p>
+</section>

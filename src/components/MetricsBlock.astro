@@ -1,4 +1,7 @@
 ---
+// Updated MetricsBlock that uses the new MetricCard system
+import MetricCard from './MetricCard.astro';
+
 interface Props {
   metrics: {
     cost?: string;
@@ -18,27 +21,34 @@ const labels: Record<string, { cost: string; bottleneck: string; utility: string
 };
 
 const t = labels[lang] || labels.es;
+
+const items = [
+  metrics.cost && {
+    label: t.cost,
+    value: metrics.cost,
+    variant: 'bottleneck' as const,
+  },
+  metrics.bottleneck && {
+    label: t.bottleneck,
+    value: metrics.bottleneck,
+    variant: 'bottleneck' as const,
+  },
+  metrics.realUtility && {
+    label: t.utility,
+    value: metrics.realUtility,
+    variant: 'utility' as const,
+  },
+].filter(Boolean) as { label: string; value: string; variant: 'tech' | 'bottleneck' | 'utility' }[];
 ---
 
-{(metrics.cost || metrics.bottleneck || metrics.realUtility) && (
+{items.length > 0 && (
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-10">
-    {metrics.cost && (
-      <div class="card p-4">
-        <p class="text-xs uppercase tracking-wider text-ink-muted mb-1">{t.cost}</p>
-        <p class="text-sm font-medium text-ink">{metrics.cost}</p>
-      </div>
-    )}
-    {metrics.bottleneck && (
-      <div class="card p-4">
-        <p class="text-xs uppercase tracking-wider text-ink-muted mb-1">{t.bottleneck}</p>
-        <p class="text-sm font-medium text-ink">{metrics.bottleneck}</p>
-      </div>
-    )}
-    {metrics.realUtility && (
-      <div class="card p-4">
-        <p class="text-xs uppercase tracking-wider text-ink-muted mb-1">{t.utility}</p>
-        <p class="text-sm font-medium text-ink">{metrics.realUtility}</p>
-      </div>
-    )}
+    {items.map((item) => (
+      <MetricCard
+        label={item.label}
+        value={item.value}
+        variant={item.variant}
+      />
+    ))}
   </div>
 )}

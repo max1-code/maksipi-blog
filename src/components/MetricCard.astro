@@ -1,0 +1,44 @@
+---
+interface Props {
+  label: string;
+  value: string;
+  description?: string;
+  variant?: 'tech' | 'bottleneck' | 'utility';
+}
+
+const { label, value, description, variant = 'tech' } = Astro.props;
+
+const accentMap = {
+  tech: {
+    border: 'border-t-cyan-400',
+    text: 'text-cyan-400',
+    glow: 'shadow-cyan-500/5',
+  },
+  bottleneck: {
+    border: 'border-t-amber-500',
+    text: 'text-amber-400',
+    glow: 'shadow-amber-500/5',
+  },
+  utility: {
+    border: 'border-t-accent',
+    text: 'text-accent',
+    glow: 'shadow-accent/5',
+  },
+} as const;
+
+const a = accentMap[variant];
+---
+
+<div class={`card border-t-2 ${a.border} ${a.glow} p-4 sm:p-5`}>
+  <p class="text-[10px] sm:text-[11px] font-semibold uppercase tracking-widest text-ink-muted mb-2">
+    {label}
+  </p>
+  <p class={`font-mono text-2xl sm:text-3xl font-bold tracking-tight ${a.text} leading-none`}>
+    {value}
+  </p>
+  {description && (
+    <p class="mt-2.5 text-xs text-ink-muted leading-snug line-clamp-2">
+      {description}
+    </p>
+  )}
+</div>

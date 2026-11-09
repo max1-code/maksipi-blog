@@ -1,0 +1,30 @@
+---
+interface Metric {
+  label: string;
+  value: string;
+  description?: string;
+  variant?: 'tech' | 'bottleneck' | 'utility';
+}
+
+interface Props {
+  metrics: Metric[];
+}
+
+const { metrics } = Astro.props;
+---
+
+{metrics.length > 0 && (
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-10">
+    {metrics.map((m) => (
+      <MetricCard
+        label={m.label}
+        value={m.value}
+        description={m.description}
+        variant={m.variant || 'tech'}
+      />
+    ))}
+  </div>
+)}
+
+---
+import MetricCard from './MetricCard.astro';

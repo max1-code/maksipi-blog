@@ -6,9 +6,9 @@ category: "infraestructura"
 lang: "en"
 featured: true
 metrics:
-  cost: "$3.4B in generators"
-  bottleneck: "Power and permits, not only GPUs"
-  realUtility: "High if it locks uptime; risky if gas gets complicated"
+  cost: "$3.4B"
+  bottleneck: "Power & permits"
+  realUtility: "Guaranteed uptime"
 conclusion: "Whoever controls the energy will control the scale. Frontier models are no longer limited by algorithms — they are limited by megawatts, permits and construction time. Anthropic is buying time. The rest of the industry should be looking at the same problem with the same urgency."
 ---
 

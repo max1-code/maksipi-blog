@@ -1,6 +1,8 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import ReadingProgress from '../components/ReadingProgress.astro';
 import MetricsBlock from '../components/MetricsBlock.astro';
+import Postura from '../components/Postura.astro';
 
 interface Props {
   title: string;
@@ -48,16 +50,11 @@ const categoryLabels: Record<string, Record<string, string>> = {
 const catLabel = categoryLabels[lang]?.[category] || category;
 const dateLocale =
   lang === 'es' ? 'es-ES' : lang === 'en' ? 'en-US' : lang === 'ua' ? 'uk-UA' : 'ru-RU';
-
-const conclusionTitle: Record<string, string> = {
-  es: 'Mi postura',
-  en: 'My take',
-  ua: 'Моя позиція',
-  ru: 'Моя позиция',
-};
 ---
 
 <BaseLayout title={title} description={description} lang={lang}>
+  <ReadingProgress />
+
   <article class="max-w-3xl mx-auto px-4 py-10 sm:py-14">
     <header class="mb-8 sm:mb-10">
       <div class="flex flex-wrap items-center gap-3 mb-4">
@@ -86,13 +83,6 @@ const conclusionTitle: Record<string, string> = {
       <slot />
     </div>
 
-    <section class="mt-12 sm:mt-14 p-5 sm:p-6 card border-accent/20">
-      <h2 class="text-lg sm:text-xl font-semibold text-ink mb-3">
-        {conclusionTitle[lang] || conclusionTitle.es}
-      </h2>
-      <p class="text-ink-muted leading-relaxed whitespace-pre-line">
-        {conclusion}
-      </p>
-    </section>
+    <Postura text={conclusion} lang={lang} />
   </article>
 </BaseLayout>

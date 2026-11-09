@@ -1,4 +1,6 @@
 ---
+import MetricCard from './MetricCard.astro';
+
 interface Metric {
   label: string;
   value: string;
@@ -25,6 +27,3 @@ const { metrics } = Astro.props;
     ))}
   </div>
 )}
-
----
-import MetricCard from './MetricCard.astro';

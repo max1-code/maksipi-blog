@@ -20,6 +20,11 @@ const sorted = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate
 const featured = sorted.find((p) => p.data.featured) || sorted[0];
 const rest = sorted.filter((p) => p.id !== featured?.id);
 
+function getCleanSlug(post: any) {
+  const raw = post.slug;
+  return raw.includes('/') ? raw.split('/').slice(1).join('/') : raw;
+}
+
 const titles: Record<string, string> = {
   es: 'Maksipi — Análisis práctico de IA',
   en: 'Maksipi — Practical AI analysis',
@@ -39,7 +44,7 @@ const titles: Record<string, string> = {
           description={featured.data.description}
           pubDate={featured.data.pubDate}
           category={featured.data.category}
-          href={`/${lang}/post/${featured.slug}`}
+          href={`/${lang}/post/${getCleanSlug(featured)}`}
           lang={lang}
           featured={true}
         />
@@ -53,7 +58,7 @@ const titles: Record<string, string> = {
           description={post.data.description}
           pubDate={post.data.pubDate}
           category={post.data.category}
-          href={`/${lang}/post/${post.slug}`}
+          href={`/${lang}/post/${getCleanSlug(post)}`}
           lang={lang}
         />
       ))}

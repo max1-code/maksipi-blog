@@ -4,13 +4,23 @@ import PostLayout from '../../../layouts/PostLayout.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts');
-  return posts.map((post) => ({
-    params: {
-      lang: post.data.lang,
-      slug: post.slug,
-    },
-    props: { post },
-  }));
+
+  return posts.map((post) => {
+    // When posts live in lang subfolders (es/, en/, etc.),
+    // Astro includes the folder in the slug. We strip it.
+    const rawSlug = post.slug;
+    const cleanSlug = rawSlug.includes('/')
+      ? rawSlug.split('/').slice(1).join('/')
+      : rawSlug;
+
+    return {
+      params: {
+        lang: post.data.lang,
+        slug: cleanSlug,
+      },
+      props: { post },
+    };
+  });
 }
 
 interface Props {

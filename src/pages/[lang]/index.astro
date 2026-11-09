@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'es' } },
+    { params: { lang: 'en' } },
+    { params: { lang: 'ua' } },
+    { params: { lang: 'ru' } },
+  ];
+}
+
+const { lang } = Astro.params;
+
+const allPosts = await getCollection('posts', ({ data }) => data.lang === lang);
+const sorted = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const featured = sorted.find((p) => p.data.featured) || sorted[0];
+const rest = sorted.filter((p) => p.id !== featured?.id);
+
+const titles: Record<string, string> = {
+  es: 'Maksipi — Análisis práctico de IA',
+  en: 'Maksipi — Practical AI analysis',
+  ua: 'Maksipi — Практичний аналіз ШІ',
+  ru: 'Maksipi — Практический анализ ИИ',
+};
+---
+
+<BaseLayout title={titles[lang] || titles.es} lang={lang}>
+  <Hero lang={lang} />
+
+  <div class="max-w-5xl mx-auto px-4 pb-16">
+    {featured && (
+      <section class="mb-12">
+        <PostCard
+          title={featured.data.title}
+          description={featured.data.description}
+          pubDate={featured.data.pubDate}
+          category={featured.data.category}
+          href={`/${lang}/post/${featured.slug}`}
+          lang={lang}
+          featured={true}
+        />
+      </section>
+    )}
+
+    <section class="grid gap-4 sm:grid-cols-2">
+      {rest.map((post) => (
+        <PostCard
+          title={post.data.title}
+          description={post.data.description}
+          pubDate={post.data.pubDate}
+          category={post.data.category}
+          href={`/${lang}/post/${post.slug}`}
+          lang={lang}
+        />
+      ))}
+    </section>
+
+    {sorted.length === 0 && (
+      <p class="text-ink-muted text-center py-20">
+        {lang === 'es' ? 'Próximamente...' : 'Coming soon...'}
+      </p>
+    )}
+  </div>
+</BaseLayout>

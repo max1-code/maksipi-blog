@@ -1,0 +1,44 @@
+---
+interface Props {
+  metrics: {
+    cost?: string;
+    bottleneck?: string;
+    realUtility?: string;
+  };
+  lang: string;
+}
+
+const { metrics, lang } = Astro.props;
+
+const labels: Record<string, { cost: string; bottleneck: string; utility: string }> = {
+  es: { cost: 'Coste real', bottleneck: 'Cuello de botella', utility: 'Utilidad real' },
+  en: { cost: 'Real cost', bottleneck: 'Bottleneck', utility: 'Real utility' },
+  ua: { cost: 'Реальна вартість', bottleneck: 'Вузьке місце', utility: 'Реальна користь' },
+  ru: { cost: 'Реальная стоимость', bottleneck: 'Узкое место', utility: 'Реальная польза' },
+};
+
+const t = labels[lang] || labels.es;
+---
+
+{(metrics.cost || metrics.bottleneck || metrics.realUtility) && (
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-10">
+    {metrics.cost && (
+      <div class="card p-4">
+        <p class="text-xs uppercase tracking-wider text-ink-muted mb-1">{t.cost}</p>
+        <p class="text-sm font-medium text-ink">{metrics.cost}</p>
+      </div>
+    )}
+    {metrics.bottleneck && (
+      <div class="card p-4">
+        <p class="text-xs uppercase tracking-wider text-ink-muted mb-1">{t.bottleneck}</p>
+        <p class="text-sm font-medium text-ink">{metrics.bottleneck}</p>
+      </div>
+    )}
+    {metrics.realUtility && (
+      <div class="card p-4">
+        <p class="text-xs uppercase tracking-wider text-ink-muted mb-1">{t.utility}</p>
+        <p class="text-sm font-medium text-ink">{metrics.realUtility}</p>
+      </div>
+    )}
+  </div>
+)}

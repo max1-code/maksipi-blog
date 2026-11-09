@@ -1,0 +1,37 @@
+---
+interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props;
+
+const content: Record<string, { title: string; subtitle: string }> = {
+  es: {
+    title: 'Análisis práctico de IA',
+    subtitle: 'Costes reales, cuellos de botella y utilidad concreta. Sin humo corporativo.',
+  },
+  en: {
+    title: 'Practical AI analysis',
+    subtitle: 'Real costs, bottlenecks and concrete utility. No corporate hype.',
+  },
+  ua: {
+    title: 'Практичний аналіз ШІ',
+    subtitle: 'Реальні витрати, вузькі місця та конкретна користь. Без корпоративного хайпу.',
+  },
+  ru: {
+    title: 'Практический анализ ИИ',
+    subtitle: 'Реальные затраты, узкие места и конкретная польза. Без корпоративного хайпа.',
+  },
+};
+
+const t = content[lang] || content.es;
+---
+
+<section class="max-w-5xl mx-auto px-4 pt-12 sm:pt-16 pb-8">
+  <h1 class="text-3xl sm:text-5xl font-bold tracking-tight text-ink leading-tight max-w-2xl">
+    {t.title}
+  </h1>
+  <p class="mt-4 text-lg text-ink-muted max-w-xl leading-relaxed">
+    {t.subtitle}
+  </p>
+</section>

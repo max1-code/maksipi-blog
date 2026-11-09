@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'es' } },
+    { params: { lang: 'en' } },
+    { params: { lang: 'ua' } },
+    { params: { lang: 'ru' } },
+  ];
+}
+
+const { lang } = Astro.params;
+
+const content: Record<string, { title: string; body: string }> = {
+  es: {
+    title: 'Sobre Max',
+    body: `Soy Max (Maksipi). Construyo y evalúo tecnología con criterio práctico.\n\nEste blog analiza el ecosistema de IA desde la utilidad real: costes, límites, cuellos de botella y lo que realmente funciona cuando lo pones en producción.\n\nNada de disclaimers de "escrito por IA". La voz es mía. El criterio también.\n\nCuatrilingüe porque el conocimiento no tiene fronteras, pero el análisis sí necesita precisión.`,
+  },
+  en: {
+    title: 'About Max',
+    body: `I'm Max (Maksipi). I build and evaluate technology with a practical lens.\n\nThis blog analyzes the AI ecosystem through real utility: costs, limits, bottlenecks, and what actually works when you put it into production.\n\nNo "written by AI" disclaimers. The voice is mine. The judgment too.\n\nMultilingual because knowledge has no borders, but analysis needs precision.`,
+  },
+  ua: {
+    title: 'Про Макса',
+    body: `Я Макс (Maksipi). Будую та оцінюємо технології з практичним підходом.\n\nЦей блог аналізує екосистему ШІ через реальну користь: витрати, обмеження, вузькі місця та те, що справді працює у продакшені.\n\nБез дисклеймерів «написано ШІ». Голос мій. Критерій теж.\n\nБагатомовний, бо знання не має кордонів, але аналіз потребує точності.`,
+  },
+  ru: {
+    title: 'О Максе',
+    body: `Я Макс (Maksipi). Строю и оцениваю технологии с практическим подходом.\n\nЭтот блог анализирует экосистему ИИ через реальную пользу: затраты, ограничения, узкие места и то, что действительно работает в продакшене.\n\nБез дисклеймеров «написано ИИ». Голос мой. Критерий тоже.\n\nМногоязычный, потому что знания не имеют границ, но анализ требует точности.`,
+  },
+};
+
+const t = content[lang] || content.es;
+---
+
+<BaseLayout title={`${t.title} — Maksipi`} lang={lang}>
+  <article class="max-w-2xl mx-auto px-4 py-16">
+    <h1 class="text-3xl sm:text-4xl font-bold text-ink mb-8">{t.title}</h1>
+    <div class="prose prose-invert prose-lg text-ink-muted whitespace-pre-line leading-relaxed">
+      {t.body}
+    </div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,24 @@
+---
+interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props;
+
+const copy: Record<string, string> = {
+  es: 'Análisis práctico de IA. Sin humo.',
+  en: 'Practical AI analysis. No hype.',
+  ua: 'Практичний аналіз ШІ. Без хайпу.',
+  ru: 'Практический анализ ИИ. Без хайпа.',
+};
+---
+
+<footer class="border-t border-slate-800 mt-auto">
+  <div class="max-w-5xl mx-auto px-4 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-ink-muted">
+    <p>© {new Date().getFullYear()} Max (Maksipi) — {copy[lang] || copy.es}</p>
+    <div class="flex items-center gap-4">
+      <a href="https://x.com/Maksipi" class="hover:text-accent transition-colors" target="_blank" rel="noopener">X</a>
+      <a href="/rss.xml" class="hover:text-accent transition-colors">RSS</a>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,38 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  category: string;
+  href: string;
+  lang: string;
+  featured?: boolean;
+}
+
+const { title, description, pubDate, category, href, lang, featured = false } = Astro.props;
+
+const categoryLabels: Record<string, Record<string, string>> = {
+  es: { herramientas: 'Herramientas', modelos: 'Modelos', infraestructura: 'Infraestructura', negocio: 'Negocio' },
+  en: { herramientas: 'Tools', modelos: 'Models', infraestructura: 'Infrastructure', negocio: 'Business' },
+  ua: { herramientas: 'Інструменти', modelos: 'Моделі', infraestructura: 'Інфраструктура', negocio: 'Бізнес' },
+  ru: { herramientas: 'Инструменты', modelos: 'Модели', infraestructura: 'Инфраструктура', negocio: 'Бизнес' },
+};
+
+const catLabel = categoryLabels[lang]?.[category] || category;
+---
+
+<a href={href} class="block card p-5 sm:p-6 hover:border-accent/40 transition-colors group">
+  <div class="flex items-center gap-2 mb-3">
+    <span class="tag">{catLabel}</span>
+    {featured && <span class="tag tag-active">★</span>}
+    <time class="text-xs text-ink-muted ml-auto" datetime={pubDate.toISOString()}>
+      {pubDate.toLocaleDateString(lang === 'es' ? 'es-ES' : 'en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+    </time>
+  </div>
+  <h2 class="text-lg sm:text-xl font-semibold text-ink group-hover:text-accent transition-colors leading-snug">
+    {title}
+  </h2>
+  <p class="mt-2 text-sm text-ink-muted line-clamp-2 leading-relaxed">
+    {description}
+  </p>
+</a>

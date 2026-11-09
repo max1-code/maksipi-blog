@@ -1,0 +1,46 @@
+---
+interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props;
+
+const labels: Record<string, { home: string; about: string }> = {
+  es: { home: 'Inicio', about: 'Sobre mí' },
+  en: { home: 'Home', about: 'About' },
+  ua: { home: 'Головна', about: 'Про мене' },
+  ru: { home: 'Главная', about: 'Обо мне' },
+};
+
+const t = labels[lang] || labels.es;
+---
+
+<header class="sticky top-0 z-50 border-b border-slate-800/80 bg-surface/90 backdrop-blur-md">
+  <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+    <a href={`/${lang}/`} class="font-bold text-lg tracking-tight text-ink hover:text-accent transition-colors">
+      Maksipi
+    </a>
+
+    <nav class="flex items-center gap-1 sm:gap-2">
+      <a href={`/${lang}/`} class="btn text-sm text-ink-muted hover:text-ink">
+        {t.home}
+      </a>
+      <a href={`/${lang}/about`} class="btn text-sm text-ink-muted hover:text-ink">
+        {t.about}
+      </a>
+
+      <!-- Language switcher placeholder -->
+      <div class="ml-2 flex items-center gap-1 border-l border-slate-800 pl-3">
+        {['es', 'en', 'ua', 'ru'].map((l) => (
+          <a
+            href={`/${l}/`}
+            class={`text-xs font-medium min-w-touch min-h-touch flex items-center justify-center rounded ${l === lang ? 'text-accent' : 'text-ink-muted hover:text-ink'}`}
+            aria-current={l === lang ? 'page' : undefined}
+          >
+            {l.toUpperCase()}
+          </a>
+        ))}
+      </div>
+    </nav>
+  </div>
+</header>
